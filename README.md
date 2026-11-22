@@ -1,60 +1,85 @@
-# Portfólio da Bia
+# Site Bia Pizani
 
-Site pessoal de radialista e comunicadora: abertura, biografia com fotos, galeria com legendas,
-vídeos e áudios do YouTube, recados dos visitantes e contatos. Tudo é atualizado por um painel
-administrativo, sem mexer em código.
+Site pessoal da locutora Bia Pizani: trajetória no rádio em linha do tempo, galeria de fotos por época,
+trabalhos atuais, áudios, vídeos, recados e contato. Todo o conteúdo é cadastrado por um painel simples,
+em português e pensado para o celular. O painel inclui o **Scanner Virtual de Fotos**, que digitaliza
+fotos impressas pela câmera do celular.
 
-Feito em PHP puro com banco SQLite (um arquivo), para funcionar em qualquer hospedagem
-compartilhada sem configurar banco de dados.
+Feito em PHP puro com banco SQLite (um arquivo), sem Node em produção. Roda em hospedagem compartilhada
+comum (Hostinger, HostGator e similares).
 
-## Requisitos da hospedagem
+## Documentos
 
-- PHP 8.1 ou mais novo, com as extensões `pdo_sqlite`, `gd` e `mbstring` (padrão na maioria dos planos)
-- Apache ou LiteSpeed (os arquivos `.htaccess` protegem as pastas internas)
-- HTTPS ativo (recomendado; o painel usa senha)
+| Arquivo | Para quem | Conteúdo |
+|---|---|---|
+| [docs/PENDENCIAS.md](docs/PENDENCIAS.md) | Rafael | O que depende de informação ou decisão sua |
+| [docs/PUBLICACAO.md](docs/PUBLICACAO.md) | Rafael | Como publicar na hospedagem e apontar o domínio |
+| [docs/GUIA-DE-USO.md](docs/GUIA-DE-USO.md) | Bia | Como usar o painel, com capturas de tela |
 
-## Como publicar
+## Páginas
 
-1. Envie todos os arquivos para a pasta pública do domínio (`public_html`), inclusive os `.htaccess`.
-2. Garanta que o PHP pode gravar nas pastas `data/` e `uploads/` (permissão 755 ou 775).
-3. Abra `seudominio.com.br/admin/` e crie o usuário e a senha. **Faça isso logo após enviar os
-   arquivos**: enquanto não existir conta, a tela de primeiro acesso fica aberta.
-4. No painel, preencha Perfil e Contatos e publique fotos, vídeos e áudios.
-
-## Painel
-
-| Seção | O que faz |
+| Endereço | Conteúdo |
 |---|---|
-| Perfil | Nome, frase, cidade, apresentação, biografia, foto de abertura e fotos da biografia |
-| Fotos | Envio de várias fotos de uma vez, legenda, ordem e exclusão |
-| Vídeos | Link do YouTube, título e descrição |
-| Áudios | Link do YouTube; o site toca só o som, com uma tela animada |
-| Recados | Aprovar, retirar ou excluir; escolher se os recados passam por aprovação |
-| Contatos | WhatsApp, telefone, e-mail, Instagram, Facebook, YouTube e TikTok |
-| Senha | Troca da senha do painel |
-
-Seções sem conteúdo (fotos, vídeos, áudios, contatos) não aparecem no site.
+| `/` | Capa, fotos em destaque, trabalho atual, trecho da história e um recado |
+| `/minha-historia` | Linha do tempo por décadas |
+| `/galeria` e `/galeria/decada/1990` | Fotos por época, com filtro por década e ampliação |
+| `/foto/12-titulo-da-foto` | Página própria de cada foto, para compartilhar |
+| `/trabalhos` | Programas, horários e projetos |
+| `/audios` e `/videos` | Aparecem no menu quando há conteúdo |
+| `/recados` | Depoimentos; envio por visitantes é opcional |
+| `/contato` | WhatsApp e redes sociais (sem formulário) |
+| `/admin/` | Painel |
 
 ## Estrutura
 
 ```
-index.php          página pública
-comentar.php       recebe os recados
-admin/index.php    painel
-inc/bootstrap.php  banco, sessão, segurança e utilitários
-assets/            CSS e JavaScript
-data/              banco SQLite (criado sozinho; acesso bloqueado pela web)
-uploads/           fotos enviadas (execução de scripts bloqueada)
+index.php              entrada do site (decide a página pelo endereço)
+comentar.php           recebe recados de visitantes
+admin/index.php        entrada do painel
+inc/bootstrap.php      banco, sessão, segurança, imagens
+inc/site.php           cabeçalho, rodapé, sitemap
+inc/paginas/           páginas públicas
+inc/admin/             ações e telas do painel
+assets/css, js, fonts  estilos, scripts e fontes (Lora e Poppins, no próprio site)
+assets/vendor/opencv   OpenCV.js usado pelo scanner (servido pelo próprio site)
+data/                  banco SQLite e originais sem tratamento (bloqueado pela web)
+uploads/               fotos e áudios enviados (execução de scripts bloqueada)
+ferramentas/           roteador de testes e conteúdo de exemplo
 ```
 
-## Backup
+## Scanner Virtual de Fotos
 
-Copie a pasta `data/` (banco) e a pasta `uploads/` (fotos). É tudo o que muda depois da instalação.
+Tudo acontece no navegador do celular; o servidor só recebe a imagem final.
+
+1. **Fotografa**: câmera do celular ou imagem já salva no aparelho.
+2. **Alinha**: detecção automática das bordas (Canny, limiar de Otsu, limiar adaptativo, nessa ordem),
+   com quatro cantos arrastáveis e lupa. Botões "Detectar de novo", "Girar 90°" e "Usar imagem inteira".
+3. **Trata**: correção de perspectiva, sombra (normalização da luminosidade em LAB, misturada com o
+   original), cor (percentis 1%–99% por canal), contraste (CLAHE) e nitidez (filtro bilateral + unsharp
+   mask). Modo automático que escolhe as intensidades pela própria foto, controles manuais e comparador
+   de antes e depois.
+4. **Publica**: JPEG sem metadados, até 2400 px, com legenda. "Salvar rascunho" ou "Publicar na galeria".
+   O original sem tratamento é guardado em `data/originais/` quando cabe no limite de envio do servidor.
+
+O processamento roda em um Web Worker (`assets/js/scanner-worker.js`). A função `enhance()` desse
+arquivo é o ponto de extensão para uma futura restauração com IA.
 
 ## Testar no computador
 
 ```
-php -S localhost:8000
+php ferramentas/exemplo.php                       # opcional: conteúdo de exemplo
+php -S localhost:8000 ferramentas/router.php
 ```
 
-O servidor embutido do PHP não lê `.htaccess`; use só para testes.
+Abra `http://localhost:8000` e `http://localhost:8000/admin/`. A câmera do celular só funciona em HTTPS
+ou em `localhost`; em rede local, use "Escolher uma imagem do aparelho".
+
+## Requisitos
+
+PHP 8.1 ou mais novo com `pdo_sqlite`, `gd`, `mbstring` e `fileinfo`; Apache ou LiteSpeed com
+`mod_rewrite`; HTTPS.
+
+## Licenças de terceiros
+
+OpenCV.js (Apache 2.0), Lora e Poppins (SIL Open Font License). Os textos estão em
+`assets/vendor/opencv/LICENSE` e `assets/fonts/`.
