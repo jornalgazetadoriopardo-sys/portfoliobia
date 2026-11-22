@@ -110,7 +110,7 @@ switch ($action) {
 
     /* ---------- Configurações do site ---------- */
     case 'config':
-        foreach (['site_name' => 60, 'tagline' => 90, 'slogan' => 140, 'about' => 400, 'city' => 80,
+        foreach (['site_name' => 60, 'tagline' => 90, 'slogan' => 140, 'invite' => 200, 'about' => 400, 'city' => 80,
                   'whatsapp' => 30, 'whatsapp_msg' => 200, 'instagram' => 120, 'facebook' => 120, 'youtube' => 120, 'tiktok' => 120] as $k => $max) {
             set_setting($k, post($k, $max));
         }

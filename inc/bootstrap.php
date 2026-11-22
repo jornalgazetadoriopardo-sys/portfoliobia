@@ -10,7 +10,7 @@ const DATA_DIR     = ROOT_DIR . '/data';
 const UPLOAD_DIR   = ROOT_DIR . '/uploads';
 const ORIGINAL_DIR = DATA_DIR . '/originais'; // originais sem tratamento: fora do alcance da web
 const DB_FILE      = DATA_DIR . '/site.sqlite';
-const ASSET_VERSION = '2';
+const ASSET_VERSION = '3';
 
 mb_internal_encoding('UTF-8');
 date_default_timezone_set('America/Sao_Paulo');
@@ -131,6 +131,7 @@ const SETTING_DEFAULTS = [
     'site_name'  => 'Bia Pizani',
     'tagline'    => 'Locutora',
     'slogan'     => '34 anos de rádio e o que a sintonia não mostra.',
+    'invite'     => 'Vem viver comigo os bastidores da música e dos artistas, com muita energia boa!',
     'about'      => 'São 34 anos de microfone aberto. Aqui estão as fotos, as histórias de bastidores e os trabalhos de hoje.',
     'history_intro' => '',
     'city'       => 'São José do Rio Pardo, SP',

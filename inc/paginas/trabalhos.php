@@ -12,7 +12,7 @@ page_header([
     <p class="kicker">Trabalhos atuais</p>
     <h1>Onde ouvir a <?= e(explode(' ', $s['site_name'])[0]) ?> hoje</h1>
     <?php if ($s['live_url']): ?>
-      <p class="acoes"><a class="btn btn-vermelho" href="<?= e($s['live_url']) ?>" target="_blank" rel="noopener">Ouvir ao vivo</a></p>
+      <p class="acoes"><a class="btn btn-cheio" href="<?= e($s['live_url']) ?>" target="_blank" rel="noopener">Ouvir ao vivo</a></p>
     <?php endif ?>
   </div>
 </section>

@@ -42,7 +42,7 @@ page_header([
 </section>
 
 <?php if ($aberto): ?>
-<section class="faixa faixa-creme-escuro" id="enviar">
+<section class="faixa faixa-prata" id="enviar">
   <div class="wrap recado-form">
     <div>
       <p class="kicker">Deixe o seu</p>
@@ -62,7 +62,7 @@ page_header([
         </select></p>
       <p class="campo"><label for="f-msg">Recado</label><textarea id="f-msg" name="mensagem" rows="5" maxlength="800" required></textarea></p>
       <p class="form-fim">
-        <button class="btn btn-vermelho" type="submit">Enviar recado</button>
+        <button class="btn btn-cheio" type="submit">Enviar recado</button>
         <span class="form-msg<?= $flash ? ($flash['ok'] ? ' ok' : ' erro') : '' ?>" id="recado-msg" role="status"><?= $flash ? e($flash['message']) : '' ?></span>
       </p>
     </form>

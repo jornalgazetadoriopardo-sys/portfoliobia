@@ -45,7 +45,7 @@ foreach ($fotos as $i => [$w, $h, $a, $b, $title, $year, $place, $people, $story
 }
 
 // Capa
-$im = placeholder(1600, 2000, [60, 70, 110], [27, 35, 64], '');
+$im = placeholder(1600, 2000, [150, 190, 196], [70, 120, 132], '');
 [$w, $h] = make_variants($im, 'exemplo-capa');
 foreach (['hero_photo' => 'exemplo-capa', 'hero_w' => $w, 'hero_h' => $h, 'whatsapp' => '(19) 99999-0000',
           'instagram' => '@biapizani', 'facebook' => 'biapizani', 'live_url' => 'https://example.com/ao-vivo'] as $k => $v) {
@@ -63,7 +63,7 @@ foreach ($marcos as $i => [$period, $title, $body, $year]) {
     $pdo->prepare('INSERT INTO milestones(period, title, body, photo_id, position) VALUES(?,?,?,?,?)')->execute([$period, $title, $body, $ids[$year] ?? null, $i + 1]);
 }
 
-$im = placeholder(1400, 1000, [150, 70, 70], [60, 30, 50], '');
+$im = placeholder(1400, 1000, [200, 150, 120], [120, 80, 60], '');
 [$w, $h] = make_variants($im, 'exemplo-trabalho');
 $pdo->prepare('INSERT INTO works(name, outlet, schedule, description, image, image_w, image_h, link, link_label, active, position) VALUES(?,?,?,?,?,?,?,?,?,1,?)')
     ->execute(['Manhã com a Bia', 'Rádio Difusora FM 99,9', 'Segunda a sexta, das 8h às 11h', "Música, notícias da região, entrevistas e a participação dos ouvintes pelo WhatsApp.", 'exemplo-trabalho', $w, $h, 'https://example.com/ao-vivo', 'Ouvir ao vivo', 2]);

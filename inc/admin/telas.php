@@ -412,6 +412,7 @@ elseif ($page === 'config'): ?>
       <label>Profissão <input name="tagline" value="<?= e($s['tagline']) ?>" maxlength="90"></label>
     </div>
     <label>Slogan <input name="slogan" value="<?= e($s['slogan']) ?>" maxlength="140"></label>
+    <label>Convite <small>frase curta que acompanha o slogan na capa e no rodapé</small><input name="invite" value="<?= e($s['invite']) ?>" maxlength="200"></label>
     <label>Texto curto "sobre" <small>uma ou duas frases para a página inicial</small><textarea name="about" rows="3" maxlength="400"><?= e($s['about']) ?></textarea></label>
     <label>Cidade <input name="city" value="<?= e($s['city']) ?>" maxlength="80"></label>
 

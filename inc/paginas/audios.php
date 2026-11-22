@@ -7,7 +7,7 @@ page_header([
     'description' => 'Trechos marcantes, vinhetas e gravações antigas de ' . $s['site_name'] . '.',
 ]);
 ?>
-<section class="faixa faixa-escura cabeca estudio-faixa">
+<section class="faixa cabeca estudio-faixa">
   <div class="wrap">
     <p class="kicker">Áudios</p>
     <h1>O que a sintonia não mostra, em som</h1>

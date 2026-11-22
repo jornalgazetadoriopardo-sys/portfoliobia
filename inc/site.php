@@ -59,6 +59,13 @@ function menu_items(): array
     return $items + ['recados' => 'Recados', 'contato' => 'Contato'];
 }
 
+/** Balão de fala do logotipo, usado como detalhe gráfico. */
+function icon_balao(): string
+{
+    return '<svg class="balao" viewBox="0 0 100 100" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="5" stroke-linejoin="round" stroke-linecap="round">'
+        . '<path d="M50 8a40 40 0 1 1-17 76.200L14 92l6.500-19.500A40 40 0 0 1 50 8z"/></svg>';
+}
+
 function icon_whatsapp(): string
 {
     return '<svg viewBox="0 0 24 24" width="26" height="26" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">'
@@ -75,7 +82,7 @@ function page_header(array $meta): void
     $s = settings();
     $name = $s['site_name'];
     $title = isset($meta['title']) ? $meta['title'] . ' | ' . $name : $name . ' | ' . $s['slogan'];
-    $desc = excerpt($meta['description'] ?? ($name . ', ' . mb_strtolower($s['tagline']) . '. ' . $s['slogan']), 160);
+    $desc = excerpt($meta['description'] ?? ($name . ': ' . $s['slogan'] . ' ' . $s['invite']), 160);
     $canonical = abs_url($meta['path'] ?? '');
     $image = $meta['image'] ?? ($s['hero_photo'] ? abs_url('uploads/' . $s['hero_photo'] . '-m.jpg') : '');
     $current = $meta['current'] ?? '';
@@ -98,7 +105,7 @@ function page_header(array $meta): void
 <meta property="og:image" content="<?= e($image) ?>">
 <meta name="twitter:card" content="summary_large_image">
 <?php endif ?>
-<meta name="theme-color" content="#1b2340">
+<meta name="theme-color" content="#f6f4f0">
 <link rel="preload" href="<?= url('assets/fonts/lora-latin-600-normal.woff2') ?>" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="<?= url('assets/fonts/poppins-latin-400-normal.woff2') ?>" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="<?= asset('css/site.css') ?>">
@@ -108,18 +115,19 @@ function page_header(array $meta): void
 </head>
 <body class="<?= e($meta['body_class'] ?? '') ?>">
 <a class="skip" href="#conteudo">Pular para o conteúdo</a>
-<header class="topo">
-  <div class="wrap topo-in">
-    <a class="marca" href="<?= url() ?>"><?= e($name) ?></a>
-    <button class="menu-btn" type="button" aria-expanded="false" aria-controls="menu"><span aria-hidden="true"></span>Menu</button>
-    <nav id="menu" class="menu" aria-label="Seções do site">
-      <?php foreach (menu_items() as $path => $label): ?>
-        <a href="<?= url($path) ?>"<?= $current === $path ? ' aria-current="page"' : '' ?>><?= $label ?></a>
+<header class="dial">
+  <div class="wrap dial-in">
+    <a class="marca" href="<?= url() ?>"><b><?= e($name) ?></b><small>Comunicação</small></a>
+    <nav class="dial-faixa" id="dial" aria-label="Seções do site">
+      <span class="ponteiro" id="ponteiro" aria-hidden="true"></span>
+      <?php $estacoes = menu_items(); $n = count($estacoes); $i = 0;
+      foreach ($estacoes as $path => $label): $freq = number_format(88.1 + ($n > 1 ? $i++ * (19.6 / ($n - 1)) : 0), 1, ',', ''); ?>
+        <a href="<?= url($path) ?>"<?= $current === $path ? ' aria-current="page"' : '' ?>><small aria-hidden="true"><?= $freq ?></small><?= $label ?></a>
       <?php endforeach ?>
-      <?php if ($s['live_url']): ?>
-        <a class="menu-live" href="<?= e($s['live_url']) ?>" target="_blank" rel="noopener"><span class="ponto" aria-hidden="true"></span>Ouvir ao vivo</a>
-      <?php endif ?>
     </nav>
+    <?php if ($s['live_url']): ?>
+      <a class="ao-vivo" href="<?= e($s['live_url']) ?>" target="_blank" rel="noopener"><span class="ponto" aria-hidden="true"></span>Ouvir ao vivo</a>
+    <?php endif ?>
   </div>
 </header>
 <main id="conteudo">
@@ -136,7 +144,7 @@ function page_footer(): void
   <div class="wrap rodape-in">
     <div>
       <p class="rodape-nome"><?= e($s['site_name']) ?></p>
-      <p class="rodape-slogan"><?= e($s['slogan']) ?></p>
+      <p class="rodape-slogan"><?= e($s['slogan']) ?> <?= e($s['invite']) ?></p>
     </div>
     <ul class="rodape-links">
       <?php foreach (contact_channels() as [$label, $value, $link]): ?>

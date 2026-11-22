@@ -6,12 +6,28 @@
   const $$ = (sel, root = document) => [...root.querySelectorAll(sel)];
   const calmo = matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-  /* ---------- Menu no celular ---------- */
-  const menuBtn = $('.menu-btn'), menu = $('#menu');
-  if (menuBtn && menu) {
-    const abrir = on => { menu.classList.toggle('aberto', on); menuBtn.setAttribute('aria-expanded', String(on)); };
-    menuBtn.addEventListener('click', () => abrir(!menu.classList.contains('aberto')));
-    document.addEventListener('keydown', ev => { if (ev.key === 'Escape' && menu.classList.contains('aberto')) { abrir(false); menuBtn.focus(); } });
+  /* ---------- Dial: o ponteiro marca a estação (página) atual e acompanha o cursor ---------- */
+  const dial = $('#dial'), ponteiro = $('#ponteiro');
+  if (dial && ponteiro) {
+    const atual = $('a[aria-current]', dial);
+    const sintonizar = alvo => {
+      const x = alvo ? alvo.offsetLeft + alvo.offsetWidth / 2 : 0;
+      ponteiro.style.setProperty('--x', x.toFixed(1) + 'px');
+    };
+    const repouso = () => sintonizar(atual);
+    $$('a', dial).forEach(a => {
+      a.addEventListener('pointerenter', ev => { if (ev.pointerType === 'mouse') sintonizar(a); });
+      a.addEventListener('focus', () => sintonizar(a));
+      a.addEventListener('blur', repouso);
+    });
+    dial.addEventListener('pointerleave', repouso);
+    addEventListener('resize', repouso);
+    document.fonts?.ready.then(repouso);
+    // no celular o dial desliza: a estação atual começa visível
+    if (atual) dial.scrollLeft = atual.offsetLeft - dial.clientWidth / 2 + atual.offsetWidth / 2;
+    ponteiro.style.transition = 'none';
+    repouso();
+    requestAnimationFrame(() => requestAnimationFrame(() => { ponteiro.style.transition = ''; }));
   }
 
   /* ---------- Ampliação de fotos (galeria) e vídeos ---------- */
@@ -197,7 +213,7 @@
       ctx.clearRect(0, 0, W, H);
       const passo = W / BARRAS, bw = passo * 0.56, meio = H * 0.58;
       const grad = ctx.createLinearGradient(0, meio - H * 0.44, 0, meio);
-      grad.addColorStop(0, '#ffffff'); grad.addColorStop(0.35, '#ff8a85'); grad.addColorStop(1, '#c9363a');
+      grad.addColorStop(0, '#c2703f'); grad.addColorStop(0.45, '#0e6072'); grad.addColorStop(1, '#0a4756');
       for (let i = 0; i < BARRAS; i++) {
         const c = 1 - Math.abs(i - (BARRAS - 1) / 2) / (BARRAS / 2);
         const onda = Math.sin(t * 2.1 + i * 0.42) * 0.5 + Math.sin(t * 3.7 - i * 0.9) * 0.3 + Math.sin(t * 7.3 + i * 2.1) * 0.2;

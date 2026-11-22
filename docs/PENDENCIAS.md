@@ -11,6 +11,8 @@ decisão sua. A numeração das decisões segue a seção 11 do briefing.
 | 2 | Seção de áudios | **Entrou.** Aceita MP3 enviado pelo painel ou link do YouTube (toca só o som, com tela animada). A página só aparece no menu quando há áudio. | Basta não cadastrar áudios. |
 | 3 | Recados de visitantes | **Ligado, com aprovação**: o visitante envia e o recado só aparece depois de aprovado. A Bia também cadastra recados direto no painel, com relação e foto. | Painel → Recados → desmarcar "Visitantes podem enviar recados pelo site". |
 | 7 | Ponto focal | **Manual por foto**, além de layouts sem corte. A galeria, o lightbox, a linha do tempo e a página da foto nunca cortam. O ponto focal vale para a capa e para as imagens dos trabalhos. | — |
+| — | Identidade visual | A pedido seu, a paleta do briefing (azul-marinho, vermelho, creme) foi trocada pela do **logotipo**: petróleo `#0e6072`, cobre `#c2703f` e prata `#f6f4f0`, sempre em fundo claro. O topo voltou a ser o **dial de rádio**, com o ponteiro na página atual. Lora e Poppins foram mantidas. | As cores ficam no início de `assets/css/site.css`. |
+| — | Frase da Bia | Dividida em duas: o **slogan** ("34 anos de rádio e o que a sintonia não mostra.") e o **convite** ("Vem viver comigo os bastidores da música e dos artistas, com muita energia boa!"). Aparecem juntos na capa, no rodapé e na descrição para o Google; o convite também abre a galeria. | Painel → Configurações → Slogan e Convite. |
 | — | Vídeos | O briefing não cita, mas a página de vídeos do YouTube pedida no início foi mantida. Só aparece no menu se houver vídeo. | Basta não cadastrar vídeos. |
 
 ## 2. Informações que faltam (você preenche no painel → Configurações)
@@ -19,6 +21,7 @@ decisão sua. A numeração das decisões segue a seção 11 do briefing.
 - [ ] **WhatsApp** da Bia e a mensagem padrão.
 - [ ] **Redes sociais**: Instagram, Facebook, YouTube, TikTok.
 - [ ] **Foto de capa** e o ponto focal dela.
+- [ ] **Logotipo em arquivo** (SVG ou PNG com fundo transparente). Hoje o topo mostra o nome em texto, com "Comunicação" embaixo; com o arquivo eu coloco o símbolo do B com o balão.
 - [ ] **Texto curto "sobre"** da página inicial. Hoje está um texto provisório meu.
 - [ ] Conferir o **slogan** e a **cidade** (estão como "34 anos de rádio e o que a sintonia não mostra." e "São José do Rio Pardo, SP").
 

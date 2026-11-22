@@ -31,7 +31,7 @@ page_header([
   <div class="wrap">
     <p class="kicker">Galeria</p>
     <h1>Bastidores</h1>
-    <p class="intro">O que a sintonia não mostra: cada foto com o ano, o lugar, quem aparece e a história daquele momento.</p>
+    <p class="intro"><?= e($s['invite']) ?> Cada foto traz o ano, o lugar, quem aparece e a história daquele momento.</p>
     <?php if (count($decadas) > 1): ?>
       <nav class="filtro" aria-label="Filtrar por década">
         <a href="<?= url('galeria') ?>"<?= $filtro === null ? ' aria-current="true"' : '' ?>>Todas</a>

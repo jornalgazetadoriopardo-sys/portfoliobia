@@ -15,7 +15,7 @@ $jsonld = array_filter([
     'homeLocation' => $s['city'] ?: null, 'sameAs' => $sameAs ?: null,
 ]);
 
-page_header(['description' => $s['about'], 'jsonld' => $jsonld, 'body_class' => 'pg-inicio']);
+page_header(['description' => $name . ': ' . $s['slogan'] . ' ' . $s['invite'], 'jsonld' => $jsonld, 'body_class' => 'pg-inicio']);
 ?>
 <section class="capa<?= $s['hero_photo'] ? '' : ' capa-sem-foto' ?>">
   <?php if ($s['hero_photo']): ?>
@@ -28,24 +28,28 @@ page_header(['description' => $s['about'], 'jsonld' => $jsonld, 'body_class' => 
     <p class="selo"><span class="ponto" aria-hidden="true"></span>No ar</p>
     <h1><?= e($name) ?></h1>
     <p class="capa-slogan"><?= e($s['slogan']) ?></p>
+    <p class="capa-convite"><?= e($s['invite']) ?></p>
     <div class="acoes">
       <?php if ($s['live_url']): ?>
-        <a class="btn btn-vermelho" href="<?= e($s['live_url']) ?>" target="_blank" rel="noopener">Ouvir ao vivo</a>
+        <a class="btn btn-cheio" href="<?= e($s['live_url']) ?>" target="_blank" rel="noopener">Ouvir ao vivo</a>
       <?php endif ?>
-      <a class="btn <?= $s['live_url'] ? 'btn-claro' : 'btn-vermelho' ?>" href="<?= url('minha-historia') ?>">Conhecer a história</a>
+      <a class="btn <?= $s['live_url'] ? 'btn-linha' : 'btn-cheio' ?>" href="<?= url('galeria') ?>">Ver os bastidores</a>
     </div>
   </div>
 </section>
 
-<section class="faixa">
-  <div class="wrap sobre-curto">
-    <p class="kicker">Sobre</p>
-    <p class="frase"><?= e($s['about']) ?></p>
+<section class="faixa faixa-branca">
+  <div class="wrap convite">
+    <?= icon_balao() ?>
+    <div>
+      <p class="kicker">Sobre</p>
+      <p class="frase"><?= e($s['about']) ?></p>
+    </div>
   </div>
 </section>
 
 <?php if ($fotos): ?>
-<section class="faixa faixa-creme-escuro">
+<section class="faixa faixa-prata">
   <div class="wrap">
     <p class="kicker">Galeria</p>
     <h2>Dos bastidores</h2>
@@ -58,7 +62,7 @@ page_header(['description' => $s['about'], 'jsonld' => $jsonld, 'body_class' => 
 <?php endif ?>
 
 <?php if ($trabalho): ?>
-<section class="faixa faixa-escura">
+<section class="faixa faixa-branca">
   <div class="wrap destaque-trabalho">
     <?php if ($trabalho['image']): ?>
       <div class="corte corte-largo">
@@ -75,9 +79,9 @@ page_header(['description' => $s['about'], 'jsonld' => $jsonld, 'body_class' => 
       <?php if ($trabalho['description']): ?><p><?= e(excerpt($trabalho['description'], 220)) ?></p><?php endif ?>
       <div class="acoes">
         <?php if ($trabalho['link']): ?>
-          <a class="btn btn-vermelho" href="<?= e($trabalho['link']) ?>" target="_blank" rel="noopener"><?= e($trabalho['link_label'] ?: 'Ouvir ao vivo') ?></a>
+          <a class="btn btn-cheio" href="<?= e($trabalho['link']) ?>" target="_blank" rel="noopener"><?= e($trabalho['link_label'] ?: 'Ouvir ao vivo') ?></a>
         <?php endif ?>
-        <a class="btn btn-claro" href="<?= url('trabalhos') ?>">Todos os trabalhos</a>
+        <a class="btn btn-linha" href="<?= url('trabalhos') ?>">Todos os trabalhos</a>
       </div>
     </div>
   </div>
@@ -104,7 +108,7 @@ page_header(['description' => $s['about'], 'jsonld' => $jsonld, 'body_class' => 
 <?php endif ?>
 
 <?php if ($recado): ?>
-<section class="faixa faixa-creme-escuro">
+<section class="faixa faixa-prata">
   <div class="wrap recado-destaque">
     <p class="kicker">Recados</p>
     <blockquote>
